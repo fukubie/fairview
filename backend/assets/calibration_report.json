@@ -1,0 +1,497 @@
+{
+  "arcface_impostor_cosine_mean_by_group": {
+    "Black": 0.053500186651945114,
+    "East_Asian": 0.07452124357223511,
+    "Indian": 0.08623912185430527,
+    "Latino_Hispanic": 0.03958185017108917,
+    "Middle_Eastern": 0.041457291692495346,
+    "Southeast_Asian": 0.09942281246185303,
+    "White": 0.032196592539548874
+  },
+  "cohort": {
+    "kind": "individual embeddings",
+    "size": 1806
+  },
+  "dataset": "SynthFaces (shredder67/synthfaces-faces-balanced @ 732b1715), generated faces",
+  "dataset_license": "MIT per dataset card; see ATTRIBUTIONS.md",
+  "evaluation": {
+    "baseline_arcface": {
+      "cosine_threshold": 0.38968801498413086,
+      "gap": 0.005067414713600579,
+      "groups": {
+        "Black": {
+          "false_matches": 18,
+          "fmr": 0.0005429372907429192,
+          "pairs": 33153
+        },
+        "East_Asian": {
+          "false_matches": 16,
+          "fmr": 0.00048261092510481704,
+          "pairs": 33153
+        },
+        "Indian": {
+          "false_matches": 168,
+          "fmr": 0.005067414713600579,
+          "pairs": 33153
+        },
+        "Latino_Hispanic": {
+          "false_matches": 2,
+          "fmr": 6.032636563810213e-05,
+          "pairs": 33153
+        },
+        "Middle_Eastern": {
+          "false_matches": 6,
+          "fmr": 0.0001809790969143064,
+          "pairs": 33153
+        },
+        "Southeast_Asian": {
+          "false_matches": 64,
+          "fmr": 0.0019304437004192682,
+          "pairs": 33153
+        },
+        "White": {
+          "false_matches": 0,
+          "fmr": 0.0,
+          "pairs": 33153
+        }
+      },
+      "max_fmr": 0.005067414713600579,
+      "min_fmr": 0.0,
+      "ser": null,
+      "target_fmr": 0.001
+    },
+    "fmr_1e-3": {
+      "global_zscore": {
+        "gap": 0.004946761982324375,
+        "groups": {
+          "Black": {
+            "false_matches": 20,
+            "fmr": 0.0006032636563810213,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 13,
+            "fmr": 0.00039212137664766385,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 164,
+            "fmr": 0.004946761982324375,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 2,
+            "fmr": 6.032636563810213e-05,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 7,
+            "fmr": 0.00021114227973335746,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 76,
+            "fmr": 0.002292401894247881,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 0,
+            "fmr": 0.0,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.004946761982324375,
+        "min_fmr": 0.0,
+        "ser": null
+      },
+      "target_fmr": 0.001,
+      "with_cohort": {
+        "gap": 0.0003619581938286128,
+        "groups": {
+          "Black": {
+            "false_matches": 23,
+            "fmr": 0.0006937532048381745,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 25,
+            "fmr": 0.0007540795704762766,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 13,
+            "fmr": 0.00039212137664766385,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 15,
+            "fmr": 0.000452447742285766,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 18,
+            "fmr": 0.0005429372907429192,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 20,
+            "fmr": 0.0006032636563810213,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 14,
+            "fmr": 0.0004222845594667149,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.0007540795704762766,
+        "min_fmr": 0.00039212137664766385,
+        "ser": 1.9230769230769231
+      }
+    },
+    "tau_high": {
+      "global_zscore": {
+        "gap": 0.00021114227973335746,
+        "groups": {
+          "Black": {
+            "false_matches": 1,
+            "fmr": 3.0163182819051065e-05,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 0,
+            "fmr": 0.0,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 7,
+            "fmr": 0.00021114227973335746,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 0,
+            "fmr": 0.0,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 2,
+            "fmr": 6.032636563810213e-05,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 6,
+            "fmr": 0.0001809790969143064,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 0,
+            "fmr": 0.0,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.00021114227973335746,
+        "min_fmr": 0.0,
+        "ser": null
+      },
+      "score_threshold": 0.78,
+      "target_fmr": 0.0001,
+      "with_cohort": {
+        "gap": 0.00024130546255240852,
+        "groups": {
+          "Black": {
+            "false_matches": 2,
+            "fmr": 6.032636563810213e-05,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 8,
+            "fmr": 0.00024130546255240852,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 1,
+            "fmr": 3.0163182819051065e-05,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 4,
+            "fmr": 0.00012065273127620426,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 4,
+            "fmr": 0.00012065273127620426,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 4,
+            "fmr": 0.00012065273127620426,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 0,
+            "fmr": 0.0,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.00024130546255240852,
+        "min_fmr": 0.0,
+        "ser": null
+      }
+    },
+    "tau_low": {
+      "global_zscore": {
+        "gap": 0.031611015594365514,
+        "groups": {
+          "Black": {
+            "false_matches": 210,
+            "fmr": 0.006334268392000724,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 316,
+            "fmr": 0.009531565770820137,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 1055,
+            "fmr": 0.03182215787409887,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 61,
+            "fmr": 0.001839954151962115,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 85,
+            "fmr": 0.0025638705396193407,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 847,
+            "fmr": 0.025548215847736252,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 7,
+            "fmr": 0.00021114227973335746,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.03182215787409887,
+        "min_fmr": 0.00021114227973335746,
+        "ser": 150.71428571428572
+      },
+      "score_threshold": 0.48,
+      "target_fmr": 0.01,
+      "with_cohort": {
+        "gap": 0.006877205682743644,
+        "groups": {
+          "Black": {
+            "false_matches": 331,
+            "fmr": 0.009984013513105903,
+            "pairs": 33153
+          },
+          "East_Asian": {
+            "false_matches": 305,
+            "fmr": 0.009199770759810575,
+            "pairs": 33153
+          },
+          "Indian": {
+            "false_matches": 305,
+            "fmr": 0.009199770759810575,
+            "pairs": 33153
+          },
+          "Latino_Hispanic": {
+            "false_matches": 131,
+            "fmr": 0.003951376949295689,
+            "pairs": 33153
+          },
+          "Middle_Eastern": {
+            "false_matches": 189,
+            "fmr": 0.0057008415528006515,
+            "pairs": 33153
+          },
+          "Southeast_Asian": {
+            "false_matches": 355,
+            "fmr": 0.010707929900763129,
+            "pairs": 33153
+          },
+          "White": {
+            "false_matches": 127,
+            "fmr": 0.0038307242180194855,
+            "pairs": 33153
+          }
+        },
+        "max_fmr": 0.010707929900763129,
+        "min_fmr": 0.0038307242180194855,
+        "ser": 2.795275590551181
+      }
+    }
+  },
+  "faces": {
+    "calibration": 2408,
+    "cohort": 1806,
+    "evaluation": 1806,
+    "total": 6020
+  },
+  "genuine_pairs": {
+    "groups": {
+      "Black": {
+        "fnmr_baseline_arcface": 0.007352941176470588,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.6682533621788025,
+        "low_quality_abstention": 0.058823529411764705,
+        "not_confirmed_global_zscore": 0.03125,
+        "not_confirmed_with_cohort": 0.0,
+        "pairs": 136
+      },
+      "East_Asian": {
+        "fnmr_baseline_arcface": 0.027777777777777776,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.6772888898849487,
+        "low_quality_abstention": 0.0625,
+        "not_confirmed_global_zscore": 0.05925925925925926,
+        "not_confirmed_with_cohort": 0.0,
+        "pairs": 144
+      },
+      "Indian": {
+        "fnmr_baseline_arcface": 0.015625,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.6889086961746216,
+        "low_quality_abstention": 0.0703125,
+        "not_confirmed_global_zscore": 0.01680672268907563,
+        "not_confirmed_with_cohort": 0.0,
+        "pairs": 128
+      },
+      "Latino_Hispanic": {
+        "fnmr_baseline_arcface": 0.025,
+        "fnmr_global_zscore": 0.017543859649122806,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.67103511095047,
+        "low_quality_abstention": 0.05,
+        "not_confirmed_global_zscore": 0.043859649122807015,
+        "not_confirmed_with_cohort": 0.017543859649122806,
+        "pairs": 120
+      },
+      "Middle_Eastern": {
+        "fnmr_baseline_arcface": 0.02857142857142857,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.6522594690322876,
+        "low_quality_abstention": 0.02857142857142857,
+        "not_confirmed_global_zscore": 0.0661764705882353,
+        "not_confirmed_with_cohort": 0.007352941176470588,
+        "pairs": 140
+      },
+      "Southeast_Asian": {
+        "fnmr_baseline_arcface": 0.0,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.7045220136642456,
+        "low_quality_abstention": 0.03125,
+        "not_confirmed_global_zscore": 0.0,
+        "not_confirmed_with_cohort": 0.0,
+        "pairs": 128
+      },
+      "White": {
+        "fnmr_baseline_arcface": 0.00819672131147541,
+        "fnmr_global_zscore": 0.0,
+        "fnmr_with_cohort": 0.0,
+        "fused_cosine_mean": 0.6796618103981018,
+        "low_quality_abstention": 0.05737704918032787,
+        "not_confirmed_global_zscore": 0.02608695652173913,
+        "not_confirmed_with_cohort": 0.0,
+        "pairs": 122
+      }
+    },
+    "note": "Genuine pairs are two generated images of one synthetic identity. Identity consistency of the generator is not validated, so read these as relative differences between groups, not as absolute FNMR."
+  },
+  "held_out_fit": {
+    "skipped_groups": {
+      "high": [
+        "Black",
+        "East_Asian",
+        "Indian",
+        "Latino_Hispanic",
+        "Middle_Eastern",
+        "Southeast_Asian",
+        "White"
+      ],
+      "low": []
+    },
+    "z_high": 5.58193548694167,
+    "z_low": 2.2205714224530944
+  },
+  "quality_bounds": {
+    "norm_max": 28.53,
+    "norm_min": 10.36
+  },
+  "quality_by_group": {
+    "Black": {
+      "below_q_min_0.40": 0.08372093023255814,
+      "detector_score_median": 0.7816962599754333,
+      "feature_norm_median": 28.844539642333984,
+      "pose_score_median": 0.8658697605133057,
+      "quality_median": 0.9335988767117265
+    },
+    "East_Asian": {
+      "below_q_min_0.40": 0.05232558139534884,
+      "detector_score_median": 0.7873061895370483,
+      "feature_norm_median": 28.1910400390625,
+      "pose_score_median": 0.8853304386138916,
+      "quality_median": 0.9225207853265418
+    },
+    "Indian": {
+      "below_q_min_0.40": 0.06279069767441861,
+      "detector_score_median": 0.7832891345024109,
+      "feature_norm_median": 29.17853355407715,
+      "pose_score_median": 0.8886218070983887,
+      "quality_median": 0.9383122419636312
+    },
+    "Latino_Hispanic": {
+      "below_q_min_0.40": 0.06627906976744186,
+      "detector_score_median": 0.7852160930633545,
+      "feature_norm_median": 28.348285675048828,
+      "pose_score_median": 0.8649762868881226,
+      "quality_median": 0.913650059877622
+    },
+    "Middle_Eastern": {
+      "below_q_min_0.40": 0.06511627906976744,
+      "detector_score_median": 0.7828590869903564,
+      "feature_norm_median": 27.91627311706543,
+      "pose_score_median": 0.8887994885444641,
+      "quality_median": 0.9122318812274117
+    },
+    "Southeast_Asian": {
+      "below_q_min_0.40": 0.037209302325581395,
+      "detector_score_median": 0.7864124774932861,
+      "feature_norm_median": 29.162322998046875,
+      "pose_score_median": 0.9155657291412354,
+      "quality_median": 0.9514525014481464
+    },
+    "White": {
+      "below_q_min_0.40": 0.05581395348837209,
+      "detector_score_median": 0.791996419429779,
+      "feature_norm_median": 27.74847412109375,
+      "pose_score_median": 0.8942241668701172,
+      "quality_median": 0.912609403655614
+    }
+  },
+  "shipped_fit": {
+    "faces": 4214,
+    "pairs": 1266307,
+    "skipped_groups": {
+      "high": [],
+      "low": []
+    },
+    "z_high": 5.858805916171284,
+    "z_low": 2.2430829946167172
+  },
+  "top_k": 100,
+  "what_this_measures": "False-match rates between different people of the same labelled group, on identities held out from both the cohort and the threshold fit. One image per person: genuine pairs are not available here, so FNMR is not measured by this report."
+}

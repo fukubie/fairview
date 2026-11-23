@@ -1,0 +1,40 @@
+# Fairview on a public domain with automatic HTTPS.
+#   DOMAIN=fairview.tech docker compose -f deploy/server/docker-compose.yml up -d --build
+# Caddy obtains and renews the TLS certificate (browsers need HTTPS for the
+# camera) and passes WebSocket upgrades through to the app.
+services:
+  fairview:
+    build:
+      context: ../..
+      dockerfile: deploy/server/Dockerfile
+    environment:
+      FAIRFACE_PUBLIC_URL: https://${DOMAIN:?set DOMAIN to the site's domain name}
+      # Demo setting: no access key, so a visitor can use the site straight away.
+      # Set FAIRFACE_API_KEY instead to require one.
+      FAIRFACE_OPEN_ACCESS: ${FAIRFACE_OPEN_ACCESS:-1}
+      FAIRFACE_API_KEY: ${FAIRFACE_API_KEY:-}
+    volumes:
+      - fairview-data:/var/lib/fairface/data
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    depends_on:
+      - fairview
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  fairview-data:
+  caddy-data:
+  caddy-config:

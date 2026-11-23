@@ -1,0 +1,36 @@
+services:
+  fairface-guard:
+    build: .
+    image: fairface-guard:latest
+    ports:
+      # Published on loopback only. The API handles biometric data: put a TLS
+      # reverse proxy in front of it before exposing it to a network, and set
+      # FAIRFACE_API_KEY. Browsers on other devices need HTTPS for camera access.
+      - "127.0.0.1:8000:8000"
+    environment:
+      # 32 random bytes, url-safe base64. Generate one with:
+      #   python -c "import base64,os;print(base64.urlsafe_b64encode(os.urandom(32)).decode())"
+      # If unset, a key file is created inside the data volume instead.
+      BIOMETRIC_ENCRYPTION_KEY: ${BIOMETRIC_ENCRYPTION_KEY:-}
+      FAIRFACE_API_KEY: ${FAIRFACE_API_KEY:-}
+      # Origin participants should use to join call rooms, e.g. https://faces.example.org
+      FAIRFACE_PUBLIC_URL: ${FAIRFACE_PUBLIC_URL:-}
+      # Extra Host names the server should answer to (comma separated). The
+      # host of FAIRFACE_PUBLIC_URL, localhost and the container's own
+      # addresses are accepted automatically.
+      FAIRFACE_ALLOWED_HOSTS: ${FAIRFACE_ALLOWED_HOSTS:-}
+    volumes:
+      - fairface-data:/var/lib/fairface/data
+      - fairface-models:/var/lib/fairface/models
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  fairface-data:
+  fairface-models:

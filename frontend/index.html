@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Fairview</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css?v=27">
+  <link rel="stylesheet" href="fairness.css?v=27">
+  <script src="app.js?v=27" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Participant screen, shown only when the page is opened with ?room=<id> -->
+  <main id="guest" class="guest" tabindex="-1" hidden>
+    <div class="guest__card">
+      <header class="guest__head">
+        <img class="brand__mark" src="assets/img/fairview-mark.svg" width="22" height="22" alt="">
+        <div>
+          <h1 class="guest__title">Join the video call</h1>
+          <p class="muted">Fairview identity verification</p>
+        </div>
+      </header>
+      <section id="guest-intro" aria-labelledby="guest-intro-h">
+        <h2 id="guest-intro-h" class="h3">Before you join</h2>
+        <ul class="plain-list">
+          <li>Your camera video is sent directly to the host of this call.</li>
+          <li>The host's system checks your identity from the live video.</li>
+          <li>Your video is not recorded. If the system is unsure who you are, one small face image is kept for a reviewer and deleted once they decide (24 hours at most).</li>
+          <li>No audio is requested or transmitted.</li>
+        </ul>
+        <div class="row">
+          <button id="guest-join" class="btn btn--primary btn--lg" type="button">Join with camera</button>
+        </div>
+      </section>
+      <p id="guest-status" class="statusline" role="status" aria-live="polite"></p>
+      <section id="guest-call" tabindex="-1" hidden aria-label="Call">
+        <div class="guest__videos">
+          <figure class="guest__remote">
+            <video id="guest-remote" autoplay playsinline muted></video>
+            <figcaption>Host</figcaption>
+          </figure>
+          <figure class="guest__local">
+            <video id="guest-local" class="mirror" autoplay playsinline muted></video>
+            <figcaption>You</figcaption>
+          </figure>
+        </div>
+        <div class="row">
+          <span id="guest-conn" class="conn" data-state="idle">Not connected</span>
+          <span class="spacer"></span>
+          <button id="guest-reconnect" class="btn" type="button">Reconnect</button>
+          <button id="guest-leave" class="btn btn--danger" type="button">Leave</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Operator dashboard -->
+  <div id="app" class="app" hidden>
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand__mark" src="assets/img/fairview-mark.svg" width="22" height="22" alt="">
+        <div class="brand__name">fairview</div>
+      </div>
+
+      <nav class="tabs" aria-label="Views">
+        <div class="tabs__list" role="tablist" aria-label="Dashboard views" aria-orientation="vertical">
+          <span class="tabs__indicator" aria-hidden="true"></span>
+          <button role="tab" id="tab-home" data-tab="home" aria-controls="view-home" type="button"><span data-icon="home"></span>Overview</button>
+          <p class="nav__group">Workspace</p>
+          <button role="tab" id="tab-live" data-tab="live" aria-controls="view-live" type="button"><span data-icon="scan"></span>Live verification</button>
+          <button role="tab" id="tab-review" data-tab="review" aria-controls="view-review" type="button"><span data-icon="list"></span>Review queue<span id="review-badge" class="nav__badge" hidden></span></button>
+          <button role="tab" id="tab-people" data-tab="people" aria-controls="view-people" type="button"><span data-icon="users"></span>Employees</button>
+          <p class="nav__group">Insights</p>
+          <button role="tab" id="tab-fairness" data-tab="fairness" aria-controls="view-fairness" type="button"><span data-icon="chart"></span>Fairness report</button>
+          <button role="tab" id="tab-ab" data-tab="ab" aria-controls="view-ab" type="button"><span data-icon="columns"></span>Engine comparison</button>
+          <button role="tab" id="tab-stress" data-tab="stress" aria-controls="view-stress" type="button"><span data-icon="twin"></span>Lookalike test</button>
+        </div>
+      </nav>
+
+      <div class="sidebar__foot">
+        <span id="engine-pill" class="pill" data-state="loading" role="status" aria-live="polite">Checking engine</span>
+        <span id="engine-device" class="engine__device" hidden></span>
+        <span id="engine-meta" class="engine__meta" hidden></span>
+        <div class="sidebar__links">
+          <button id="open-settings" class="sidebar__link" type="button" aria-haspopup="dialog">Settings</button>
+          <button id="tab-audit" class="sidebar__link" data-tab="audit" aria-controls="view-audit" type="button">Activity log</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <div id="banner" class="banner" role="status" aria-live="polite" hidden></div>
+
+      <main id="main" tabindex="-1">
+        <!-- Overview / landing -->
+        <section id="view-home" class="view home" role="tabpanel" aria-labelledby="tab-home" hidden>
+          <header class="home__hero">
+            <div class="home__intro">
+              <p class="eyebrow">Identity verification</p>
+              <h1 class="home__title"><span>Recognition that knows</span> <span>when to say <em>“not sure.”</em></span></h1>
+              <p class="home__lede">Fairview confirms a match when it is confident and flags unclear images, close lookalikes and possible spoofs for review.</p>
+              <div class="home__actions">
+                <button class="btn btn--primary btn--lg" type="button" data-goto="live">Start verifying</button>
+                <button class="btn btn--ghost btn--lg" type="button" data-goto="people">Enroll employees</button>
+              </div>
+            </div>
+            <div class="home__photo">
+              <img src="assets/img/glass-facade-small.webp"
+                   srcset="assets/img/glass-facade-small.webp 640w, assets/img/glass-facade.webp 1200w"
+                   sizes="(max-width: 620px) calc(100vw - 32px), (max-width: 960px) 36vw, (max-width: 1100px) 29vw, 520px"
+                   width="1200" height="1040" decoding="async" alt="">
+            </div>
+          </header>
+
+          <section class="home__section" aria-labelledby="home-outcomes-h">
+            <div class="home__index"><span class="index" aria-hidden="true">01</span><h2 id="home-outcomes-h">Verification outcomes</h2></div>
+            <div class="home__cols">
+              <div class="home__col">
+                <h3><span class="dot dot--match" aria-hidden="true"></span>Match confirmed</h3>
+                <p>The face clearly belongs to one enrolled person, with no close lookalike.</p>
+              </div>
+              <div class="home__col">
+                <h3><span class="dot dot--review" aria-hidden="true"></span>Needs review</h3>
+                <p>The image is unclear, or two people look too alike. A person decides.</p>
+              </div>
+              <div class="home__col">
+                <h3><span class="dot dot--none" aria-hidden="true"></span>No match</h3>
+                <p>The face is not similar to anyone who has been enrolled.</p>
+              </div>
+              <div class="home__col">
+                <h3><span class="dot dot--spoof" aria-hidden="true"></span>Possible spoof</h3>
+                <p>The camera may be seeing a photo or a screen.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="home__section" aria-labelledby="home-fit-h">
+            <div class="home__index"><span class="index" aria-hidden="true">02</span><h2 id="home-fit-h">Where it fits</h2></div>
+            <div class="fit">
+              <figure class="fit__item">
+                <div class="photo photo--tall"><img src="assets/img/fit-entrance.webp" width="800" height="1000" loading="lazy" decoding="async" alt="A pale grey building entrance with glass doors"></div>
+                <figcaption><span class="fit__n">A</span><strong>Building entry</strong><span>When the system isn’t sure, the security desk decides.</span></figcaption>
+              </figure>
+              <figure class="fit__item">
+                <div class="photo photo--tall"><img src="assets/img/fit-onboarding.webp" width="800" height="1000" loading="lazy" decoding="async" alt="A hand holding an access card to a wall reader"></div>
+                <figcaption><span class="fit__n">B</span><strong>Employee onboarding</strong><span>A few check-ins in the first week.</span></figcaption>
+              </figure>
+              <figure class="fit__item">
+                <div class="photo photo--tall"><img src="assets/img/fit-events.webp" width="800" height="1000" loading="lazy" decoding="async" alt="A check-in tablet in a busy, bright foyer"></div>
+                <figcaption><span class="fit__n">C</span><strong>Events and visitors</strong><span>Registered guests are confirmed; anyone else signs in as a visitor.</span></figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="home__band" aria-label="Our principle">
+            <img class="home__band-img" src="assets/img/band-architecture.webp" width="1600" height="640" loading="lazy" decoding="async" alt="">
+            <div class="home__band-text">
+              <p class="eyebrow">Fair by design</p>
+              <p class="home__band-quote">Fairview uses the same rules for everyone and never looks at race or skin tone.</p>
+            </div>
+          </section>
+
+          <section class="home__section" aria-labelledby="home-status-h">
+            <div class="home__index"><span class="index">03</span><h2 id="home-status-h">At a glance</h2></div>
+            <dl class="home__stats">
+              <div><dt>Employees enrolled</dt><dd id="home-people">–</dd></div>
+              <div><dt>Decisions recorded</dt><dd id="home-decisions">–</dd></div>
+              <div><dt>System</dt><dd id="home-system">–</dd></div>
+            </dl>
+          </section>
+
+          <section class="home__section" aria-labelledby="home-steps-h">
+            <div class="home__index"><span class="index">04</span><h2 id="home-steps-h">Getting started</h2></div>
+            <ol class="home__steps">
+              <li><button type="button" class="linkrow" data-goto="people"><span class="linkrow__n">01</span><span class="linkrow__t">Enroll employees and check them in over a week</span><span class="linkrow__a" aria-hidden="true">→</span></button></li>
+              <li><button type="button" class="linkrow" data-goto="live"><span class="linkrow__n">02</span><span class="linkrow__t">Start the camera and verify faces live</span><span class="linkrow__a" aria-hidden="true">→</span></button></li>
+              <li><button type="button" class="linkrow" data-goto="audit"><span class="linkrow__n">03</span><span class="linkrow__t">Review recorded decisions in the activity log</span><span class="linkrow__a" aria-hidden="true">→</span></button></li>
+              <li><button type="button" class="linkrow" data-goto="fairness"><span class="linkrow__n">04</span><span class="linkrow__t">Compare error rates across groups</span><span class="linkrow__a" aria-hidden="true">→</span></button></li>
+            </ol>
+          </section>
+
+          <footer class="home__foot">
+            <span>Video is never recorded. A face image is kept only while a case waits for review. Face data is encrypted.</span>
+            <span>Recorded decisions are kept in a tamper-evident log.</span>
+          </footer>
+        </section>
+
+        <!-- Live verification -->
+        <section id="view-live" class="view" role="tabpanel" aria-labelledby="tab-live" hidden>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Live verification</h1>
+              <p class="page-sub">Names someone only when it’s sure.</p>
+            </div>
+            <div class="page-actions">
+              <button id="open-room" class="btn" type="button" aria-haspopup="dialog">Invite participant</button>
+              <span data-slot="camera-button"></span>
+            </div>
+          </header>
+
+          <div class="toolbar">
+            <fieldset class="segmented" id="mode-switch">
+              <legend class="visually-hidden">Recognition mode</legend>
+              <label><input type="radio" name="mode" value="identify" checked><span>Identify</span></label>
+              <label><input type="radio" name="mode" value="verify"><span>Verify one person</span></label>
+            </fieldset>
+            <label class="field field--inline" id="verify-field" hidden>
+              <span>Expected person</span>
+              <select id="verify-subject"></select>
+            </label>
+            <span id="live-status" class="statusline" role="status" aria-live="polite"></span>
+          </div>
+
+          <div id="streams" class="streams"></div>
+        </section>
+
+        <!-- Review queue -->
+        <section id="view-review" class="view" role="tabpanel" aria-labelledby="tab-review" hidden>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Review queue</h1>
+              <p class="page-sub">Faces the system wasn’t sure about. Check the person, then record what you found.</p>
+            </div>
+            <div class="page-actions">
+              <button id="review-clear" class="btn btn--ghost" type="button" hidden>Clear all</button>
+              <button id="review-refresh" class="btn btn--ghost" type="button">Refresh</button>
+            </div>
+          </header>
+          <div class="review-bar">
+            <fieldset class="segmented" id="review-filter">
+              <legend class="visually-hidden">Show cases</legend>
+              <label><input type="radio" name="review-filter" value="open" checked><span>Open <span id="review-open-count" class="count"></span></span></label>
+              <label><input type="radio" name="review-filter" value="resolved"><span>Reviewed</span></label>
+              <label><input type="radio" name="review-filter" value="all"><span>All</span></label>
+            </fieldset>
+            <p id="review-status" class="statusline" role="status" aria-live="polite"></p>
+          </div>
+          <ol id="review-list" class="review-list" aria-label="Review cases"></ol>
+          <div id="review-empty" class="empty" hidden>
+            <p class="empty__title">Nothing to review</p>
+            <p class="muted">When the system can’t be sure about a face, the case appears here for a person to decide.</p>
+          </div>
+        </section>
+
+        <!-- People -->
+        <section id="view-people" class="view view--banded" role="tabpanel" aria-labelledby="tab-people" hidden>
+          <div class="page-band" aria-hidden="true"><img src="assets/img/employees-band.webp" width="1600" height="700" decoding="async" alt=""></div>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Employees</h1>
+              <p class="page-sub">Enroll staff, then check them in over their first week.</p>
+            </div>
+            <div class="page-actions">
+              <span data-slot="camera-button"></span>
+            </div>
+          </header>
+
+          <ol class="steps" aria-label="Onboarding week">
+            <li><span class="steps__n">Day 1</span>Enroll</li>
+            <li><span class="steps__n">Day 2</span>Check in</li>
+            <li><span class="steps__n">Day 3</span>Check in</li>
+            <li><span class="steps__n">Day 4</span>Check in</li>
+            <li class="is-last"><span class="steps__n">Day 5</span>Onboarded</li>
+          </ol>
+
+          <div class="people-grid">
+            <section class="card" aria-labelledby="enroll-h">
+              <h2 id="enroll-h" class="card__title">Enroll or check in</h2>
+              <div id="people-stage"></div>
+              <div id="live-enroller"></div>
+            </section>
+            <section class="card" aria-labelledby="subjects-h">
+              <div class="card__head">
+                <h2 id="subjects-h" class="card__title">Employees</h2>
+                <button id="subjects-refresh" class="btn btn--ghost btn--small" type="button">Refresh</button>
+              </div>
+              <ul id="subject-list" class="subject-list"></ul>
+              <div id="subjects-empty" class="empty" hidden>
+                <img class="empty__image" src="assets/img/glass-detail.webp" width="560" height="240" loading="lazy" decoding="async" alt="">
+                <p class="empty__title">No employees enrolled yet</p>
+                <p class="muted">Start the camera and enroll the first employee. Anyone who isn’t enrolled is treated as a visitor.</p>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Lookalike test -->
+        <section id="view-stress" class="view" role="tabpanel" aria-labelledby="tab-stress" hidden>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Lookalike test</h1>
+              <p class="page-sub">Two people who look alike, side by side.</p>
+            </div>
+            <div class="page-actions">
+              <span data-slot="camera-button"></span>
+            </div>
+          </header>
+
+          <section class="twins" aria-label="Lookalikes">
+            <p class="twins__quote">When two people look this alike, Fairview asks a person to decide.</p>
+            <div class="twins__photo"><img src="assets/img/lookalike-twins.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Close-up of adult identical twins, faces side by side"></div>
+          </section>
+
+          <div class="stress-grid">
+            <div class="stress-steps">
+              <section class="card step" aria-labelledby="step-a-h">
+                <h2 id="step-a-h" class="card__title"><span class="step__n">1</span>Choose person A</h2>
+                <label class="field"><span>Enrolled person</span><select id="stress-a"></select></label>
+                <details class="disclosure"><summary>Or add person A now</summary><div id="stress-enroll-a"></div></details>
+              </section>
+              <section class="card step" aria-labelledby="step-b-h">
+                <h2 id="step-b-h" class="card__title"><span class="step__n">2</span>Choose person B</h2>
+                <label class="field"><span>Enrolled person</span><select id="stress-b"></select></label>
+                <details class="disclosure"><summary>Or add person B now</summary><div id="stress-enroll-b"></div></details>
+              </section>
+            </div>
+            <section class="card step" aria-labelledby="step-c-h">
+              <h2 id="step-c-h" class="card__title"><span class="step__n">3</span>Test live</h2>
+              <div class="probe-grid">
+                <div id="stress-stage"></div>
+                <div id="stress-probe" class="probe"></div>
+              </div>
+              <p class="hint">Try changing the lighting, turning your head or covering part of your face, and watch the two scores move.</p>
+            </section>
+          </div>
+
+          <details class="section-disclosure">
+            <summary>
+              <span class="section-disclosure__title">Run a simulation</span>
+              <span class="muted">Test thousands of generated lookalike pairs without a camera</span>
+            </summary>
+            <div class="sim-grid">
+              <form id="sim-form" class="card controls" aria-label="Simulation parameters">
+                <p class="notice notice--info">Generated data, not real people. In every trial the probe is person A and person B is the lookalike.</p>
+                <label class="field"><span>How alike A and B look <output id="sim-similarity-out"></output></span>
+                  <input id="sim-similarity" type="range" min="0" max="0.99" step="0.01" value="0.85"></label>
+                <label class="field"><span>Photo quality <output id="sim-quality-out"></output></span>
+                  <input id="sim-quality" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+                <label class="field"><span>Skin type (Fitzpatrick scale)</span>
+                  <select id="sim-group"><option>I</option><option>II</option><option>III</option><option selected>IV</option><option>V</option><option>VI</option></select></label>
+                <fieldset class="segmented segmented--block">
+                  <legend class="label">Who is enrolled</legend>
+                  <label><input type="radio" name="sim-enrolled" value="both" checked><span>Both A and B</span></label>
+                  <label><input type="radio" name="sim-enrolled" value="lookalike"><span>Only the lookalike (B)</span></label>
+                </fieldset>
+                <label class="field"><span>Number of trials</span>
+                  <select id="sim-trials"><option>100</option><option selected>200</option><option>500</option><option>1000</option></select></label>
+                <button class="btn btn--primary" type="submit">Run simulation</button>
+                <p id="sim-status" class="statusline" role="status" aria-live="polite"></p>
+              </form>
+              <div class="card">
+                <div id="sim-result"><p class="muted">Results appear here.</p></div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <!-- Engine comparison -->
+        <section id="view-ab" class="view" role="tabpanel" aria-labelledby="tab-ab" hidden>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Engine comparison</h1>
+              <p class="page-sub">The same camera feed, judged by both systems.</p>
+            </div>
+            <div class="page-actions">
+              <span data-slot="camera-button"></span>
+            </div>
+          </header>
+          <section class="contrast" aria-label="Two approaches">
+            <div class="contrast__col">
+              <p class="contrast__label"><span class="dot dot--base" aria-hidden="true"></span>Conventional system</p>
+              <p class="contrast__claim">Always names the closest face.</p>
+            </div>
+            <div class="contrast__col">
+              <p class="contrast__label"><span class="dot dot--fair" aria-hidden="true"></span>Fairview</p>
+              <p class="contrast__claim">Names someone only when it’s sure.</p>
+            </div>
+          </section>
+
+          <div class="toolbar">
+            <fieldset class="segmented" id="ab-overlay">
+              <legend class="visually-hidden">Video overlay</legend>
+              <label><input type="radio" name="ab-overlay" value="fair" checked><span>Fairview</span></label>
+              <label><input type="radio" name="ab-overlay" value="baseline"><span>Conventional</span></label>
+              <label><input type="radio" name="ab-overlay" value="split"><span>Side by side</span></label>
+            </fieldset>
+            <span id="ab-status" class="statusline" role="status" aria-live="polite"></span>
+          </div>
+          <div class="ab-grid">
+            <div>
+              <div id="ab-stages" class="ab-stages"></div>
+              <div id="ab-verdicts" class="ab-verdicts"></div>
+            </div>
+            <aside class="card" aria-labelledby="tally-h">
+              <div class="card__head">
+                <h2 id="tally-h" class="card__title">Where they disagree</h2>
+                <button id="tally-reset" class="btn btn--ghost btn--small" type="button">Reset</button>
+              </div>
+              <div id="tally" class="tally"></div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Fairness report -->
+        <section id="view-fairness" class="view" role="tabpanel" aria-labelledby="tab-fairness" hidden>
+          <header class="fv-head">
+            <h1 class="page-title">Fairness report</h1>
+            <p class="page-sub">Mistakes by group, compared with a conventional system.</p>
+            <p class="fv-note">
+              <span id="fair-kind">Based on simulated data.</span>
+              <button id="fair-about" class="fv-link" type="button" aria-expanded="false" aria-controls="fair-disclaimer">About this data</button>
+              <span id="fair-status" class="statusline" role="status" aria-live="polite"></span>
+            </p>
+            <p id="fair-disclaimer" class="fv-disclaimer" role="note" hidden></p>
+          </header>
+
+          <section class="fv-sec" aria-labelledby="fv-h-summary">
+            <h2 id="fv-h-summary" class="fv-label"><span class="fv-label__num">01</span>Summary</h2>
+            <div id="fair-summary" class="fv-sec__body"></div>
+          </section>
+
+          <section class="fv-sec" aria-labelledby="fv-h-groups">
+            <h2 id="fv-h-groups" class="fv-label"><span class="fv-label__num">02</span>By group</h2>
+            <div class="fv-sec__body">
+              <div class="fv-bar">
+                <div id="fair-metric" class="fv-toggle" role="group" aria-label="Mistake shown in the chart"></div>
+                <label class="fv-check"><input id="fair-log" type="checkbox" checked><span>Log scale</span></label>
+              </div>
+              <div id="fair-groups"></div>
+            </div>
+          </section>
+
+          <section class="fv-sec" aria-labelledby="fv-h-settings">
+            <h2 id="fv-h-settings" class="fv-label"><span class="fv-label__num">03</span>What-if settings</h2>
+            <div class="fv-sec__body">
+              <div class="fv-bar">
+                <p id="fair-current" class="fv-current"></p>
+                <button id="fair-adjust" class="fv-link" type="button" aria-expanded="false" aria-controls="fair-controls">Adjust settings</button>
+              </div>
+              <form id="fair-controls" class="fv-controls" aria-label="What-if thresholds" hidden>
+                <p class="fv-muted">Move a slider to preview the report. Nothing changes in the live system until you apply it.</p>
+                <div id="fair-sliders" class="fv-sliders"></div>
+                <div class="fv-actions">
+                  <button id="fair-apply" class="btn btn--primary" type="button">Apply to live system</button>
+                  <button id="fair-reset" class="btn btn--ghost" type="button">Reset</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <div class="fv-more">
+            <details id="fair-details" class="fv-row">
+              <summary>
+                <span class="fv-row__title">Detailed metrics</span>
+                <span class="fv-row__sub">Review rates, every metric, threshold curves, lookalikes and calibration</span>
+              </summary>
+              <div id="fair-body" class="fv-row__body"></div>
+            </details>
+            <details id="rfw" class="fv-row" hidden>
+              <summary>
+                <span id="rfw-h" class="fv-row__title">Real-world reference data</span>
+                <span class="fv-row__sub">How a conventional system performs on Racial Faces in the Wild data</span>
+              </summary>
+              <div id="rfw-body" class="fv-row__body"></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- Activity log -->
+        <section id="view-audit" class="view" role="tabpanel" aria-labelledby="tab-audit" hidden>
+          <header class="page-head">
+            <div>
+              <h1 class="page-title">Activity log</h1>
+              <p class="page-sub">Review recorded decisions and check the integrity of the log.</p>
+            </div>
+            <div class="page-actions">
+              <button id="audit-json" class="btn btn--ghost" type="button">Export JSON</button>
+              <button id="audit-csv" class="btn btn--ghost" type="button">Export CSV</button>
+              <button id="audit-verify" class="btn btn--primary" type="button">Check integrity</button>
+            </div>
+          </header>
+          <div id="audit-verify-result" role="status" aria-live="polite"></div>
+          <div class="card card--flush">
+            <div class="table-toolbar">
+              <p id="audit-status" class="statusline" role="status" aria-live="polite"></p>
+              <span class="spacer"></span>
+              <label class="field field--inline"><span>Show</span>
+                <select id="audit-limit"><option value="50">50 rows</option><option value="200">200 rows</option><option value="1000">1000 rows</option></select></label>
+              <button id="audit-refresh" class="btn btn--ghost btn--small" type="button">Refresh</button>
+            </div>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Recent decisions">
+              <table class="table" id="audit-table">
+                <thead><tr>
+                  <th scope="col">Time</th><th scope="col">Outcome</th><th scope="col">Person</th><th scope="col">Details</th>
+                  <th scope="col" class="num">Match score</th><th scope="col" class="num">Quality</th>
+                  <th scope="col" class="num">Liveness</th>
+                </tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="room-dialog" class="modal modal--wide" aria-labelledby="room-h">
+    <div class="modal__body">
+      <div class="card__head">
+        <h2 id="room-h" class="card__title">Invite a remote participant</h2>
+        <span class="dialog-close"><button class="btn btn--ghost btn--small" type="button" id="room-close">Close</button><kbd aria-hidden="true">Esc</kbd></span>
+      </div>
+      <p class="muted">Share a link so someone can join from their phone or laptop. Their video is checked the same way as your camera.</p>
+      <div class="row">
+        <button id="room-create" class="btn btn--primary" type="button">Create invite link</button>
+      </div>
+      <div id="room-panel" class="room-panel" hidden>
+        <img id="room-qr" class="qr" alt="QR code for the join link" width="168" height="168">
+        <div class="room-panel__side">
+          <div class="field">
+            <label for="room-url">Join link</label>
+            <span class="copyrow">
+              <input id="room-url" type="text" readonly>
+              <button id="room-copy" class="btn" type="button">Copy</button>
+            </span>
+          </div>
+          <span id="room-conn" class="conn" data-state="idle">Waiting for participant</span>
+          <p id="room-detail" class="muted small" role="status" aria-live="polite"></p>
+          <ul id="room-warnings" class="notice-list"></ul>
+          <details id="room-lan" class="disclosure" hidden>
+            <summary>Other links on this network</summary>
+            <ul id="room-lan-list" class="plain-list"></ul>
+          </details>
+          <div class="row">
+            <button id="room-reconnect" class="btn" type="button">Reconnect</button>
+            <button id="room-end" class="btn btn--danger" type="button">End call</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="settings" class="drawer" aria-labelledby="settings-h">
+    <form id="settings-form" method="dialog">
+      <div class="card__head">
+        <h2 id="settings-h" class="card__title">Settings</h2>
+        <span class="dialog-close"><button class="btn btn--ghost btn--small" type="button" id="settings-close" aria-label="Close settings">Close</button><kbd aria-hidden="true">Esc</kbd></span>
+      </div>
+      <section class="drawer__section">
+        <h3 class="h3">Decision rules</h3>
+        <p class="settings__lede">How sure the system must be before it names someone.</p>
+        <div id="settings-preview" class="settings__preview"></div>
+        <div id="settings-sliders" class="settings__groups"></div>
+      </section>
+      <section class="drawer__section">
+        <h3 class="h3">Access</h3>
+        <div class="settings__row">
+          <div>
+            <p class="settings__row-title">API key</p>
+            <p class="muted small">Needed when the app is shared on a network.</p>
+          </div>
+          <button id="settings-key" class="btn btn--small" type="button">Change</button>
+        </div>
+      </section>
+      <details class="disclosure drawer__section">
+        <summary>System details</summary>
+        <dl id="settings-engine" class="kv"></dl>
+      </details>
+      <div class="settings__bar" data-dirty="false">
+        <p id="settings-status" class="statusline" role="status" aria-live="polite"></p>
+        <span class="spacer"></span>
+        <button id="settings-revert" class="btn btn--ghost btn--small" type="button">Discard</button>
+        <button id="settings-apply" class="btn btn--primary btn--small" type="button">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="key-dialog" class="modal" aria-labelledby="key-h">
+    <form id="key-form" method="dialog" class="modal__body">
+      <div class="card__head">
+        <h2 id="key-h" class="card__title">API key required</h2>
+        <span class="dialog-close"><button id="key-close" class="btn btn--ghost btn--small" type="button">Close</button><kbd aria-hidden="true">Esc</kbd></span>
+      </div>
+      <p class="muted">This server is protected. Enter the API key shown in the terminal where you started it. It is kept for this browser session only.</p>
+      <label class="field"><span>API key</span>
+        <input id="key-input" type="password" autocomplete="off" autofocus required></label>
+      <p id="key-error" class="statusline statusline--error" role="alert"></p>
+      <div class="row"><button class="btn btn--primary" type="submit">Continue</button></div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <noscript><p class="noscript">Fairview needs JavaScript to run.</p></noscript>
+</body>
+</html>

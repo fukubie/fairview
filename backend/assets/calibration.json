@@ -1,0 +1,74 @@
+{
+  "a": 0.37218257875419,
+  "anchor_high": 0.78,
+  "anchor_low": 0.48,
+  "b": -0.9148791209696572,
+  "baseline_cosine_threshold": 0.3929,
+  "fmr_high": 0.0001,
+  "fmr_low": 0.01,
+  "mu0": 0.06244555860757828,
+  "notes": {
+    "calibration_faces": 4214,
+    "calibration_pairs": 1266307,
+    "cohort": {
+      "kind": "individual embeddings",
+      "size": 1806
+    },
+    "dataset": "SynthFaces (shredder67/synthfaces-faces-balanced @ 732b1715), generated faces",
+    "dataset_license": "MIT per dataset card; see ATTRIBUTIONS.md",
+    "group_axis": "labels of the calibration dataset (offline only)",
+    "held_out_report": "calibration_report.json",
+    "per_group_quantiles": {
+      "Black": {
+        "pairs": 180901,
+        "z_high": 5.777082036908462,
+        "z_low": 2.189921674629571
+      },
+      "East_Asian": {
+        "pairs": 180901,
+        "z_high": 5.802197450893971,
+        "z_low": 2.135224367004029
+      },
+      "Indian": {
+        "pairs": 180901,
+        "z_high": 5.245795394960104,
+        "z_low": 1.978853586888722
+      },
+      "Latino_Hispanic": {
+        "pairs": 180901,
+        "z_high": 5.383243981301747,
+        "z_low": 1.4982554264026837
+      },
+      "Middle_Eastern": {
+        "pairs": 180901,
+        "z_high": 5.858805916171284,
+        "z_low": 1.6254647045886306
+      },
+      "Southeast_Asian": {
+        "pairs": 180901,
+        "z_high": 5.57724925773788,
+        "z_low": 2.2430829946167172
+      },
+      "White": {
+        "pairs": 180901,
+        "z_high": 5.447297087969967,
+        "z_low": 1.38495749301818
+      }
+    },
+    "skipped_groups": {
+      "high": [],
+      "low": []
+    },
+    "worst_group_anchoring": true
+  },
+  "quality": {
+    "norm_max": 28.53,
+    "norm_min": 10.36
+  },
+  "sigma0": 0.08196985721588135,
+  "sigma_floor": 0.02,
+  "source": "SynthFaces (shredder67/synthfaces-faces-balanced @ 732b1715), generated faces: cohort AS-norm, worst-group anchors",
+  "top_k": 100,
+  "z_high": 5.858805916171284,
+  "z_low": 2.2430829946167172
+}

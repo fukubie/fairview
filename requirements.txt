@@ -1,0 +1,11 @@
+# Runtime dependencies. Inference is pure ONNX Runtime: no PyTorch, no TensorFlow.
+numpy>=1.26
+opencv-python-headless>=4.9
+onnxruntime>=1.17        # swap for onnxruntime-gpu to use CUDA
+onnx>=1.15               # one-time graph edit exposing the AdaFace feature norm
+fastapi>=0.110
+uvicorn[standard]>=0.27
+websockets>=12
+python-multipart>=0.0.9
+cryptography>=42
+qrcode>=7.4

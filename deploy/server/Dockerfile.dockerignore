@@ -1,0 +1,14 @@
+# Send only what the image needs.
+*
+!requirements.txt
+!run.py
+!backend
+!backend/**
+!frontend
+!frontend/**
+# Optional, git-ignored: published RFW scores for the Fairness report.
+!FaVFA-main/LICENCE
+!FaVFA-main/data/rfw.csv
+!FaVFA-main/model_results/BUPT_RFW.csv
+**/__pycache__
+**/*.pyc

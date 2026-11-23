@@ -1,0 +1,21 @@
+.venv/
+data/
+models/
+__pycache__/
+.pytest_cache/
+*.pyc
+*features_cache*.npz
+*pairs_cache*.npz
+.env
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Third-party RFW scores (CeCILL 2.1), optional, never committed
+FaVFA-main/
+
+# Assembled deployment folders and local exports
+build/
+Fairview_Submission.zip

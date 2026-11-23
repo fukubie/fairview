@@ -1,0 +1,10 @@
+.venv
+data
+models
+tests
+**/__pycache__
+.pytest_cache
+*.pyc
+.git
+*features_cache*.npz
+*pairs_cache*.npz
